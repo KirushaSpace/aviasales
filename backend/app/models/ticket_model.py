@@ -2,7 +2,7 @@ from sqlalchemy.orm import declarative_base
 from typing import List, Optional
 from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid4
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, DateTime
 from app.db.session import Base
 class Ticket(Base):
     __tablename__ = "ticket"

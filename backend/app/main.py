@@ -28,23 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.add_middleware(
-    SQLAlchemyMiddleware,
-    db_url=settings.DATABASE_URL,
-    engine_args={
-        "echo": False,
-        "pool_pre_ping": True,
-        "pool_size": 9,
-        "max_overflow": 64,
-    },
-)
-
-async def add_postgresql_extension() -> None:
-    async with db():
-        query = text("CREATE EXTENSION IF NOT EXISTS pg_trgm")
-        return await db.session.execute(query)
 
 @app.on_event("startup")
 async def on_startup():
     print("startup fastapi")
-    await add_postgresql_extension()
