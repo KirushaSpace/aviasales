@@ -13,5 +13,5 @@ class Ticket(Base):
     price = Column(Integer)
     airport_from = Column(String)
     airport_in = Column(String)
-    date_from = Column(DateTime)
-    date_in = Column(DateTime)
+    date_from = Column(DateTime(timezone=True))
+    date_in = Column(DateTime(timezone=True))

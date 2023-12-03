@@ -1,5 +1,5 @@
 from datetime import timedelta
-
+from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -33,8 +33,11 @@ async def user_registration(user: user_schema.UserCreate, db: AsyncSession = Dep
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.post("/login", response_model=user_schema.Token)
-async def login_for_access_token(db: AsyncSession = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()):
+@router.post("/token", response_model=user_schema.Token)
+async def login_for_access_token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    db: AsyncSession = Depends(get_db)
+):
     user = await user_crud.authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -50,7 +53,7 @@ async def login_for_access_token(db: AsyncSession = Depends(get_db), form_data: 
 
 
 @router.get("/me", response_model=user_schema.User)
-async def read_users_me(current_user: User = Depends(user_crud.get_current_user)):
+async def read_users_me(current_user: Annotated[User, Depends(user_crud.get_current_active_user)]):
     return current_user
 
 

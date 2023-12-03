@@ -23,6 +23,11 @@ class UserCreate(UserBase):
     password: str
 
 
+class LoginSchema(BaseModel):
+    username: str
+    password: str
+
+
 class UserUpdate(BaseModel):
     first_name: str
     last_name: str

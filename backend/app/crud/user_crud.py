@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from jose import JWTError, jwt
@@ -20,7 +20,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/token")
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -61,44 +61,50 @@ async def create_user(db: AsyncSession, user: user_schema.UserCreate):
         last_name=user.last_name,
     )
     db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
+    await db.commit()
+    await db.refresh(db_user)
     return db_user
 
-async def update_user(new_user_data: user_schema.UserUpdate, current_user: User, db: AsyncSession):
-    query = select(User).filter(User.username == current_user.username)
-    new_user = await db.execute(query)
-    new_user = new_user.scalar_one_or_none()
-    new_user.first_name = new_user_data.first_name
-    new_user.last_name = new_user_data.last_name
+# async def update_user(new_user_data: user_schema.UserUpdate, current_user: User, db: AsyncSession):
+#     query = select(User).filter(User.username == current_user.username)
+#     new_user = await db.execute(query)
+#     new_user = new_user.scalar_one_or_none()
+#     new_user.first_name = new_user_data.first_name
+#     new_user.last_name = new_user_data.last_name
 
     
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+#     db.add(new_user)
+#     db.commit()
+#     db.refresh(new_user)
+#     return new_user
 
 
-def get_current_user():
-    async def current_user(db: AsyncSession, token: str = Depends(oauth2_scheme)):
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-        try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-            username: str = payload.get("sub")
-            if username is None:
-                raise credentials_exception
-            token_data = user_schema.TokenData(username=username)
-        except JWTError:
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
             raise credentials_exception
-        user = await get_user(db, username=token_data.username)
-        if user is None:
-            raise credentials_exception
-        return user
+        token_data = TokenData(username=username)
+    except JWTError:
+        raise credentials_exception
+    user = get_user(fake_users_db, username=token_data.username)
+    if user is None:
+        raise credentials_exception
+    return user
 
+
+async def get_current_active_user(
+    current_user: Annotated[User, Depends(get_current_user)]
+):
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
 
     
