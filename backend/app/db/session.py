@@ -1,22 +1,29 @@
 import contextlib
 from typing import AsyncIterator
 
-from fastapi import Depends
-from sqlalchemy.ext.asyncio import (AsyncConnection, AsyncEngine, AsyncSession,
-                                    async_sessionmaker, create_async_engine)
+from sqlalchemy.ext.asyncio import (
+    AsyncConnection, 
+    AsyncEngine, 
+    AsyncSession,
+    async_sessionmaker, 
+    create_async_engine
+)
 from sqlalchemy.orm import declarative_base
 
 
 Base = declarative_base()
+
 
 class DatabaseSessionManager:
     def __init__(self):
         self._engine: AsyncEngine | None = None
         self._sessionmaker: async_sessionmaker | None = None
 
+
     def init(self, host: str):
         self._engine = create_async_engine(host)
         self._sessionmaker = async_sessionmaker(autocommit=False, bind=self._engine)
+
 
     async def close(self):
         if self._engine is None:
@@ -24,6 +31,7 @@ class DatabaseSessionManager:
         await self._engine.dispose()
         self._engine = None
         self._sessionmaker = None
+
 
     @contextlib.asynccontextmanager
     async def connect(self) -> AsyncIterator[AsyncConnection]:
@@ -36,6 +44,7 @@ class DatabaseSessionManager:
             except Exception:
                 await connection.rollback()
                 raise
+
 
     @contextlib.asynccontextmanager
     async def session(self) -> AsyncIterator[AsyncSession]:
@@ -50,6 +59,7 @@ class DatabaseSessionManager:
             raise
         finally:
             await session.close()
+
 
     # Used for testing
     async def create_all(self, connection: AsyncConnection):

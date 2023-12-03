@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+
 from app.api.endpoints import user_router, ticket_router
 from app.crud.user_crud import get_current_active_user
 

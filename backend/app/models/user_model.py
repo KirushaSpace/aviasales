@@ -1,9 +1,10 @@
-from sqlalchemy.orm import declarative_base
-from typing import List, Optional
-from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid4
+
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Column, Integer, String
+
 from app.db.session import Base
+
 
 class User(Base):
     __tablename__ = "user"
