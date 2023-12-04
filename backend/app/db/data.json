@@ -1,0 +1,137 @@
+[
+    {
+        "company": "Airline1",
+        "description": "Flight from City1 to City2",
+        "price": 500,
+        "airport_from": "City1 Airport",
+        "airport_in": "City2 Airport",
+        "datetime_from": "2024-01-01T12:00:00",
+        "datetime_in": "2024-01-01T15:00:00"
+    },
+    {
+        "company": "Airline2",
+        "description": "Flight from City2 to City3",
+        "price": 700,
+        "airport_from": "City2 Airport",
+        "airport_in": "City3 Airport",
+        "datetime_from": "2024-02-15T08:30:00",
+        "datetime_in": "2024-02-15T11:30:00"
+    },
+    {
+        "company": "Airline3",
+        "description": "Flight from City3 to City4",
+        "price": 600,
+        "airport_from": "City3 Airport",
+        "airport_in": "City4 Airport",
+        "datetime_from": "2024-03-20T16:45:00",
+        "datetime_in": "2024-03-20T19:45:00"
+    },
+    {
+        "company": "Airline4",
+        "description": "Flight from City4 to City1",
+        "price": 550,
+        "airport_from": "City4 Airport",
+        "airport_in": "City1 Airport",
+        "datetime_from": "2024-04-10T14:00:00",
+        "datetime_in": "2024-04-10T17:00:00"
+    },
+    {
+        "company": "Airline5",
+        "description": "Flight from City1 to City3",
+        "price": 600,
+        "airport_from": "City1 Airport",
+        "airport_in": "City3 Airport",
+        "datetime_from": "2024-05-05T09:15:00",
+        "datetime_in": "2024-05-05T12:15:00"
+    },
+    {
+        "company": "Airline6",
+        "description": "Flight from City2 to City4",
+        "price": 750,
+        "airport_from": "City2 Airport",
+        "airport_in": "City4 Airport",
+        "datetime_from": "2024-06-12T10:30:00",
+        "datetime_in": "2024-06-12T13:30:00"
+    },
+    {
+        "company": "Airline7",
+        "description": "Flight from City3 to City1",
+        "price": 620,
+        "airport_from": "City3 Airport",
+        "airport_in": "City1 Airport",
+        "datetime_from": "2024-07-18T15:45:00",
+        "datetime_in": "2024-07-18T18:45:00"
+    },
+    {
+        "company": "Airline8",
+        "description": "Flight from City4 to City2",
+        "price": 580,
+        "airport_from": "City4 Airport",
+        "airport_in": "City2 Airport",
+        "datetime_from": "2024-08-25T11:00:00",
+        "datetime_in": "2024-08-25T14:00:00"
+    },
+    {
+        "company": "Airline9",
+        "description": "Flight from City1 to City4",
+        "price": 700,
+        "airport_from": "City1 Airport",
+        "airport_in": "City4 Airport",
+        "datetime_from": "2024-09-30T13:15:00",
+        "datetime_in": "2024-09-30T16:15:00"
+    },
+    {
+        "company": "Airline10",
+        "description": "Flight from City3 to City2",
+        "price": 650,
+        "airport_from": "City3 Airport",
+        "airport_in": "City2 Airport",
+        "datetime_from": "2024-10-08T18:00:00",
+        "datetime_in": "2024-10-08T21:00:00"
+    },
+    {
+        "company": "Airline11",
+        "description": "Flight from City4 to City3",
+        "price": 670,
+        "airport_from": "City4 Airport",
+        "airport_in": "City3 Airport",
+        "datetime_from": "2024-11-15T14:30:00",
+        "datetime_in": "2024-11-15T17:30:00"
+    },
+    {
+        "company": "Airline12",
+        "description": "Flight from City1 to City2",
+        "price": 520,
+        "airport_from": "City1 Airport",
+        "airport_in": "City2 Airport",
+        "datetime_from": "2024-12-01T16:45:00",
+        "datetime_in": "2024-12-01T19:45:00"
+    },
+    {
+        "company": "Airline13",
+        "description": "Flight from City2 to City3",
+        "price": 720,
+        "airport_from": "City2 Airport",
+        "airport_in": "City3 Airport",
+        "datetime_from": "2024-12-18T09:00:00",
+        "datetime_in": "2024-12-18T12:00:00"
+    },
+    {
+        "company": "Airline14",
+        "description": "Flight from City3 to City4",
+        "price": 610,
+        "airport_from": "City3 Airport",
+        "airport_in": "City4 Airport",
+        "datetime_from": "2024-12-25T14:15:00",
+        "datetime_in": "2024-12-25T17:15:00"
+    },
+    {
+        "company": "Airline15",
+        "description": "Flight from City4 to City1",
+        "price": 540,
+        "airport_from": "City4 Airport",
+        "airport_in": "City1 Airport",
+        "datetime_from": "2024-12-31T10:30:00",
+        "datetime_in": "2024-12-31T13:30:00"
+    }
+]

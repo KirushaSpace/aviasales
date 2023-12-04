@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class TicketBase(BaseModel):
-    title: str
+    company: str
     description: str
     price: int
     airport_from: str

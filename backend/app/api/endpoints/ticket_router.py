@@ -1,6 +1,5 @@
 from datetime import date, time, datetime
 from uuid import UUID
-
 from fastapi import APIRouter, Depends, HTTPException
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,7 +22,7 @@ async def create_ticket(ticket: TicketCreate, db: AsyncSession = Depends(get_db)
     return new_ticket
 
 
-@router.get("", response_model=list[Ticket])
+@router.get("")
 async def get_tickets(
     db: AsyncSession = Depends(get_db), 
     price_l: int = 0, 
@@ -60,13 +59,25 @@ async def get_tickets(
                 time_in if time_in else time(23, 59)
             )
         )
-
-    return await ticket_crud.get_multi(db=db, skip=skip, limit=limit, query=query)
-
+    direct_flights = await ticket_crud.get_multi(db=db, skip=skip, limit=limit, query=query)
+    alternative_flights = []
+    if airport_from and airport_in:
+        alternative_flights = await ticket_crud.get_alternative(
+            db=db, 
+            params={
+                "airport_from": airport_from,
+                "airport_in": airport_in,
+                "date_from": date_from,
+                "date_in": date_in,
+                "time_from": time_from,
+                "time_in":time_in
+            }
+        )
+    return {"direct_flights": direct_flights, "alternative_flights": alternative_flights}
 
 @router.get("/{ticket_id}")
-async def get_ticket(ticket_id: UUID, db: AsyncSession = Depends(get_db())):
-    current_ticket = await ticket_crud.get_by_id(db, id)
+async def get_ticket(ticket_id: UUID, db: AsyncSession = Depends(get_db)):
+    current_ticket = await ticket_crud.get_by_id(db=db, id=ticket_id)
 
     if not current_ticket:
         raise HTTPException(status_code=404, detail="Ticket not found")
@@ -75,11 +86,11 @@ async def get_ticket(ticket_id: UUID, db: AsyncSession = Depends(get_db())):
 
 
 @router.delete("/{ticket_id}")
-async def delete_ticket(ticket_id: UUID, db: AsyncSession = Depends(get_db())):
-    current_ticket = await ticket_crud.get_by_id(db, id)
+async def delete_ticket(ticket_id: UUID, db: AsyncSession = Depends(get_db)):
+    current_ticket = await ticket_crud.get_by_id(db=db, id=ticket_id)
 
     if not current_ticket:
         raise HTTPException(status_code=404, detail="Ticket not found")
     
-    ticket = await ticket_crud.delete(db, id)
+    ticket = await ticket_crud.delete(db=db, id=ticket_id)
     return {"ticket": ticket, "delete": "done"}
