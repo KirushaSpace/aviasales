@@ -56,7 +56,11 @@ async def get_alternative(db: AsyncSession, params: dict):
         visited = set()
         async for way in dfs_paths(ticket, params['airport_in'], db, visited):
             if len(way) > 1:
-                alternative_flights += [way]
+                total_price = 0
+                for i in way:
+                    total_price += i.price
+                
+                alternative_flights += [{"total_price": total_price, "way": [way]}]
         
     return alternative_flights
 
