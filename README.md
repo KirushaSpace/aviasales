@@ -20,3 +20,8 @@ docker-compose run web python app/init_data.py
 *запуск контейнеров*
 ```sh
 docker-compose up
+
+*.env*
+```sh
+переименовать example.env в .env
+```
