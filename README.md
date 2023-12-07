@@ -13,7 +13,7 @@ docker-compose run web alembic revision --autogenerate -m "mig"
 ```sh
 docker-compose run web alembic upgrade head
 ```
-*создание супер юзера*
+*создание базовых сущностей*
 ```sh
 docker-compose run web python app/init_data.py
 ```
